@@ -70582,6 +70582,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -70602,6 +70604,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Auth = function Auth() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -70616,74 +70619,110 @@ var Auth = function Auth() {
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
       _useState6 = _slicedToArray(_useState5, 2),
       password = _useState6[0],
-      setPassword = _useState6[1]; // ブラウザリロード時にログイン済みか判定
-
+      setPassword = _useState6[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    getUser();
-  }, [getUser]); // 認証ユーザを取得
+    var fn = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return sanctum();
+
+              case 2:
+                getUser();
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function fn() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    fn();
+  }, [getUser]);
 
   var getUser = function getUser() {
-    axios.get("/api/user").then(function (res) {
-      console.log('[getUser]ログイン済み');
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/user").then(function (res) {
       console.log(res.data);
       setUser(res.data);
-    })["catch"](function (err) {
-      console.log('[getUser]ログインしてません');
     });
-  }; // ログイン
+  };
 
+  var sanctum = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/sanctum/csrf-cookie");
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function sanctum() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
 
   var login = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              e.preventDefault(); // ログイン時にCSRFトークンを初期化
-
-              axios.get("/sanctum/csrf-cookie").then(function (response) {
-                axios.post("/api/login", {
+              e.preventDefault();
+              axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/sanctum/csrf-cookie").then(function (response) {
+                axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/login", {
                   email: email,
                   password: password
                 }).then(function (res) {
                   console.log(res.data);
 
                   if (res.data.result) {
-                    console.log('[login]ログイン成功');
                     setUser(res.data.user);
                   } else {
                     console.log(res.data.message);
-                    console.log('[login]ログイン失敗');
                   }
                 })["catch"](function (err) {
                   console.log(err.response);
-                  console.log('[login]ログイン失敗');
                 });
               });
 
             case 2:
             case "end":
-              return _context.stop();
+              return _context3.stop();
           }
         }
-      }, _callee);
+      }, _callee3);
     }));
 
     return function login(_x) {
-      return _ref.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
-  }(); // ログアウト
-
+  }();
 
   var logout = function logout() {
-    axios.get("/api/logout").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/logout").then(function (res) {
       setUser(null);
     })["catch"](function (err) {
       console.log(err);
     });
-  }; // ログインフォーム
-
+  };
 
   var form = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
     onSubmit: login
@@ -70701,9 +70740,8 @@ var Auth = function Auth() {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
     type: "submit"
-  }, "Login")); // ユーザ情報
-
-  var userInfo = null; // 認証済みの場合、ログアウトボタンとユーザ情報を表示
+  }, "Login"));
+  var userInfo = null;
 
   if (user) {
     form = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
@@ -70789,8 +70827,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Home */ "./resources/js/Home.js");
 /* harmony import */ var _About__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./About */ "./resources/js/About.js");
 /* harmony import */ var _Auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Auth */ "./resources/js/Auth.js");
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
 
 
 
@@ -70847,8 +70883,9 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+console.log(window.axios);
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -70865,6 +70902,30 @@ window.axios.defaults.withCredentials = true;
 
 /***/ }),
 
+/***/ "./resources/js/index.js":
+/*!*******************************!*\
+  !*** ./resources/js/index.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes React and other helpers. It's a great starting point while
+ * building robust, powerful web applications using React + Laravel.
+ */
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+/**
+ * Next, we will create a fresh React component instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+
+__webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -70877,13 +70938,13 @@ window.axios.defaults.withCredentials = true;
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!***************************************************************!*\
+  !*** multi ./resources/js/index.js ./resources/sass/app.scss ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\docker.host\sakura\server\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! E:\docker.host\sakura\server\resources\js\index.js */"./resources/js/index.js");
 module.exports = __webpack_require__(/*! E:\docker.host\sakura\server\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
